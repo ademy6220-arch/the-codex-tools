@@ -1,0 +1,27 @@
+using System;
+using System.Security.Cryptography.X509Certificates;
+
+class SignatureVerifier
+{
+    public static bool IsFileSigned(string filePath)
+    {
+        try
+        {
+            using var cert = X509Certificate.CreateFromSignedFile(filePath);
+            using var cert2D = new X509Certificate2(cert);
+            Console.WriteLine($"[+] Gültiges Zertifikat von: {cert2D.SubjectName.Name}");
+            return cert2D.Verify(); // Prüft die Vertrauenskette
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    static void Main()
+    {
+        string target = @"C:\Windows\System32\cmd.exe";
+        bool isSigned = IsFileSigned(target);
+        Console.WriteLine($"[*] Datei {target} signiert und vertrauenswürdig: {isSigned}");
+    }
+}
