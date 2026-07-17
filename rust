@@ -1,0 +1,19 @@
+pub fn constant_time_compare(a: &[u8], b: &[u8]) -> bool {
+    if a.len() != b.len() {
+        return false;
+    }
+
+    let mut result = 0u8;
+    for (byte_a, byte_b) in a.iter().zip(b.iter()) {
+        result |= byte_a ^ byte_b;
+    }
+}
+
+fn main() {
+    let key_a = b"super_secret_api_key_12345";
+    let key_b = b"super_secret_api_key_12345";
+    
+    if constant_time_compare(key_a, key_b) {
+        println!("[+] Schlüssel sind identisch. Sicher verifiziert.");
+    }
+}
