@@ -1,0 +1,32 @@
+using System;
+using System.IO;
+
+public class EntropyCalculator
+{
+    public static double CalculateEntropy(string filePath)
+    {
+        if (!File.Exists(filePath)) throw new FileNotFoundException();
+        byte[] bytes = File.ReadAllBytes(filePath);
+        
+        int[] counts = new int[256];
+        foreach (byte b in bytes) counts[b]++;
+
+        double entropy = 0;
+        double total = bytes.Length;
+
+        for (int i = 0; i < 256; i++)
+        {
+            if (counts[i] == 0) continue;
+            double p = counts[i] / total;
+            entropy -= p * Math.Log2(p);
+        }
+        return entropy;
+    }
+
+    static void Main()
+    {
+        double entropy = CalculateEntropy("C:\\Windows\\System32\\notepad.exe");
+        Console.WriteLine($"[+] Shannon-Entropie der Datei: {entropy:F4}");
+        if (entropy > 7.2) Console.WriteLine("[WARNUNG] Hohe Entropie! Datei könnte gepackt oder verschlüsselt sein.");
+    }
+}
