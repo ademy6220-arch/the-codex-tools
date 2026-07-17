@@ -1,0 +1,24 @@
+using System;
+using System.Security.Principal;
+
+class PrivilegeChecker
+{
+    public static bool IsAdmin()
+    {
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        WindowsPrincipal principal = new WindowsPrincipal(identity);
+        return principal.IsInRole(WindowsBuiltInRole.Administrator);
+    }
+
+    static void Main()
+    {
+        if (IsAdmin())
+        {
+            Console.WriteLine("[+] Prozess läuft mit Administrator-Rechten. High Integrity.");
+        }
+        else
+        {
+            Console.WriteLine("[-] Medium/Low Integrity. Bitte als Administrator starten!");
+        }
+    }
+}
