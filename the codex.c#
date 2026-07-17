@@ -1,0 +1,22 @@
+using System;
+using System.IO;
+
+class FileIntegrityMonitor
+{
+    static void Main()
+    {
+        string path = @"C:\Windows\System32\drivers\etc"; // Typisches Ziel für DNS-Hijacking
+        using var watcher = new FileSystemWatcher(path);
+
+        watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
+        watcher.Filter = "*.*";
+
+        watcher.Changed += (s, e) => Console.WriteLine($"[!] Datei geänder: {e.FullPath}");
+        watcher.Created += (s, e) => Console.WriteLine($"[ALERT] Neue Datei erstellt: {e.FullPath}");
+        watcher.Deleted += (s, e) => Console.WriteLine($"[ALERT] Datei gelöscht: {e.FullPath}");
+
+        watcher.EnableRaisingEvents = true;
+        Console.WriteLine($"[*] FIM aktiv für: {path}. Beliebige Taste zum Beenden drücken...");
+        Console.ReadKey();
+    }
+}
