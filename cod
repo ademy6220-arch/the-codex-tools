@@ -1,0 +1,19 @@
+pub fn scan_memory(buffer: &[u8], pattern: &[u8]) -> Option<usize> {
+    if pattern.is_empty() || pattern.len() > buffer.len() {
+        return None;
+    }
+
+    // Nutzen des extrem schnellen Boyer-Moore-ähnlichen Suchen-Iterators in Rusts Standardbibliothek
+    buffer.windows(pattern.len())
+          .position(|window| window == pattern)
+}
+
+fn main() {
+    let simulated_ram = b"Normaler system-speicher...HIER_LIEGT_MALWARE_SIGNATUR...mehr daten";
+    let target_ioc = b"HIER_LIEGT_MALWARE_SIGNATUR";
+
+    match scan_memory(simulated_ram, target_ioc) {
+        Some(offset) => println!("[ALERT] Schadcode-Muster gefunden an RAM-Offset: 0x{:X}", offset),
+        None => println!("[+] Speicherbereich ist unauffällig."),
+    }
+}
