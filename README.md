@@ -52,3 +52,42 @@ The-Codex/
     ├── process_analyzer.rs
     ├── memory_scanner.rs
     └── secure_drop.rs
+
+
+
+
+🦀 Rust Codex (The Performance Rune)
+
+Built for speed, safety, and deterministic memory behavior. These tools avoid GC overhead and talk directly to the OS.
+File Name	Tool Name	Description	Key CyberSec Concepts
+sha256_hasher.rs	Fast SHA-256 Engine	Rapidly hashes system binaries using buffered I/O.	Forensics, Threat Hunting, IOCs
+constant_compare.rs	Constant-Time Compare	Performs cryptographic comparisons without early-exit timings.	Anti-Side-Channel, Timing Attacks
+process_analyzer.rs	Linux /proc Parser	Reads process arguments directly from kernel state.	Hidden Process Detection, Live Forensics
+memory_scanner.rs	In-Memory Signatures	Scans RAM-allocated buffers for specific bytecode signatures.	YARA-like scanning, Malware Analysis
+secure_drop.rs	RAII Memory Zeroizer	Automatically wipes keys from RAM using Rust's Drop trait.	Memory Leak Mitigation, Secrets Management
+🚀 Getting Started
+Prerequisites
+
+    C# Tools: .NET SDK (8.0 or newer recommended).
+
+    Rust Tools: Rustup and the latest stable toolchain.
+
+Quick Run: C#
+Bash
+
+cd csharp-codex
+dotnet run --project <ToolName>.csproj
+
+Quick Run: Rust
+Bash
+
+cd rust-codex
+# Compile and run individual binaries
+rustc <tool_name>.rs
+./<tool_name>
+
+⚠️ Disclaimer
+
+    For Educational and Defensive Purposes Only.
+
+    The tools inside The Codex are built strictly to help security teams monitor, audit, and secure systems. Always ensure you have explicit, written authorization before running diagnostic or monitoring software on any target system.
