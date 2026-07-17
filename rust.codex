@@ -1,0 +1,25 @@
+use sha2::{Sha256, Digest};
+use std::fs::File;
+use std::io::{self, Read};
+
+pub fn hash_file(path: &str) -> io::Result<String> {
+    let mut file = File::open(path)?;
+    let mut hasher = Sha256::new();
+    let mut buffer = [0u8; 8192]; // 8KB Puffer für Performance
+
+    loop {
+        let count = file.read(&mut buffer)?;
+        if count == 0 { break; }
+        hasher.update(&buffer[..count]);
+    }
+
+    let result = hasher.finalize();
+    Ok(format!("{:x}", result))
+}
+
+fn main() {
+    match hash_file("/etc/hosts") {
+        Ok(hash) => println!("[+] SHA-256 Hash der Datei: {}", hash),
+        Err(e) => eprintln!("[-] Fehler beim Lesen der Datei: {}", e),
+    }
+}
